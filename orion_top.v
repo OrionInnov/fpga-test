@@ -21,21 +21,21 @@
 
 
 module top(
-    read_addr,
-    clk,
-    reset,
-    dina1,
-    dina2,
-    dinb1,
-    dinb2,
-    ren,
-    cs_mem,
-    data_tomcu,
-    done,
-    test_addr1,
-    test_addr2,
-    testcycle,
-    testcycle1
+  read_addr,
+  clk,
+  reset,
+  dina1,
+  dina2,
+  dinb1,
+  dinb2,
+  ren,
+  cs_mem,
+  data_tomcu,
+  done,
+  test_addr1,
+  test_addr2,
+  testcycle,
+  testcycle1
 );
 
 input           clk;
@@ -96,23 +96,23 @@ assign testcycle1 = cycle1;
 
 
 always @ (posedge clk) begin
-    if (reset) begin
-        cycle <= 20'b00_000000_000000_000000;
-    end else if (done && (cycle > 20'b00_000000_000000_000010)) begin
-		cycle <= 20'b00_000000_000000_000000;
-    end else begin
-        cycle <= cycle + 20'b00_000000_000000_000001;
-    end
+  if (reset) begin
+    cycle <= 20'b00_000000_000000_000000;
+  end else if (done && (cycle > 20'b00_000000_000000_000010)) begin
+    cycle <= 20'b00_000000_000000_000000;
+  end else begin
+    cycle <= cycle + 20'b00_000000_000000_000001;
+  end
 end
 
 always @ (posedge clk) begin
-    if (reset) begin
-        cycle1 <= 2'b00;
-    end else if (cycle1 == 2'b01) begin
-        cycle1 <= 2'b00;
-    end else begin
-        cycle1 <= cycle1 + 2'b01;
-    end
+  if (reset) begin
+    cycle1 <= 2'b00;
+  end else if (cycle1 == 2'b01) begin
+    cycle1 <= 2'b00;
+  end else begin
+    cycle1 <= cycle1 + 2'b01;
+  end
 end
 
 //计数器模块
@@ -120,40 +120,40 @@ end
 
 
 always @ (posedge clk) begin
-    if (reset) begin
-        {_ena, _wea} <= 2'b11;
-        addr0 <= 19'b0;
+  if (reset) begin
+    {_ena, _wea} <= 2'b11;
+    addr0 <= 19'b0;
+    _done <= 1'b0;
+  end else begin
+    casex({cycle, _ena, _wea})
+      23'b????????????????????11: begin
+          
+        if (addr0 > 176126) begin
+          {_ena, _wea} <= 2'b10;
+          _done <= 1'b1;
+          addr0 <= 0;
+        end else if (addr0 <= 176126 && cycle1 == 2'b00 && cycle > 1) begin
+          {_ena, _wea} <= {_ena, _wea};
+          addr0 <= addr0 + 19'b0_000000_000000_000001;
+          _done <= _done;
+        end else begin
+          {_ena, _wea} <= {_ena, _wea};
+          addr0 <= addr0;
+          _done <= _done;
+        end
+      end
+      23'b0000000000000000001110: begin
+        {_ena, _wea} <= {_ena, _wea};
+        addr0 <= addr0;
         _done <= 1'b0;
-    end else begin
-        casex({cycle, _ena, _wea})
-            23'b????????????????????11: begin
-                
-                if (addr0 > 176126) begin
-                    {_ena, _wea} <= 2'b10;
-                    _done <= 1'b1;
-                    addr0 <= 0;
-                end else if (addr0 <= 176126 && cycle1 == 2'b00 && cycle > 1) begin
-                    {_ena, _wea} <= {_ena, _wea};
-                    addr0 <= addr0 + 19'b0_000000_000000_000001;
-                    _done <= _done;
-                end else begin
-                    {_ena, _wea} <= {_ena, _wea};
-                    addr0 <= addr0;
-                    _done <= _done;
-                end
-            end
-            23'b0000000000000000001110: begin
-                {_ena, _wea} <= {_ena, _wea};
-                addr0 <= addr0;
-                _done <= 1'b0;
-            end
-            default: begin
-                {_ena, _wea} <= {_ena, _wea};
-                addr0 <= addr0;
-                _done <= _done;
-            end
-        endcase
-    end
+      end
+      default: begin
+        {_ena, _wea} <= {_ena, _wea};
+        addr0 <= addr0;
+        _done <= _done;
+      end
+    endcase
+  end
 end
 
 

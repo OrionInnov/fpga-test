@@ -51,36 +51,36 @@ assign dinb2 = dina + 3000;
 always #5 clk = ~clk;
 
 initial begin
-    reset = 0;
-    clk = 0;
-    ren = 1;
-    cs_mem = 1;
-    #20 reset = ~reset;
-    #40 reset = ~reset;
-    #400 reset = ~reset;
-    #40 reset = ~reset;
-    #243 reset = ~reset;
-    #40 reset = ~reset;
+  reset = 0;
+  clk = 0;
+  ren = 1;
+  cs_mem = 1;
+  #20 reset = ~reset;
+  #40 reset = ~reset;
+  #400 reset = ~reset;
+  #40 reset = ~reset;
+  #243 reset = ~reset;
+  #40 reset = ~reset;
 end
 
 always @ (posedge clk) begin
-    if (reset) begin dina <= _dina; ren = 1; read_addr <= _addr; end
-    else if (done) begin
-        ren <= 0;
-    end else begin
-        #20 dina <= dina + 22;
-    end
+  if (reset) begin dina <= _dina; ren = 1; read_addr <= _addr; end
+  else if (done) begin
+    ren <= 0;
+  end else begin
+    #20 dina <= dina + 22;
+  end
 end
 always @ (posedge clk) begin
-    if (done) begin
-       read_addr <= _addr;
-    end else if (read_addr <= 50 && ren == 0) begin
-        #30 read_addr <= read_addr + 1;
-    end else if (read_addr > 50 && ren == 0) begin
-        read_addr <= 19'b0;
-    end else begin
-        read_addr <= read_addr;
-    end
+  if (done) begin
+    read_addr <= _addr;
+  end else if (read_addr <= 50 && ren == 0) begin
+    #30 read_addr <= read_addr + 1;
+  end else if (read_addr > 50 && ren == 0) begin
+    read_addr <= 19'b0;
+  end else begin
+    read_addr <= read_addr;
+  end
 end
 
 
