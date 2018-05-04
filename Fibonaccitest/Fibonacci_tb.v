@@ -20,26 +20,31 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module testLED;
+module Fibonacci_tb;
 
 reg             clk;
 reg             reset;
+reg             clk_reset;
 
-wire    [ 9:0]  runled;
+wire    [ 7:0]  out;
 
 always #5 clk = ~clk;
 
 initial begin
-    reset = 0;
-    clk = 0;
-    #20 reset = ~reset;
-    #40 reset = ~reset;
+  clk_reset = 0;
+  reset = 0;
+  clk = 0;
+  #20 clk_reset = ~clk_reset;
+  #40 clk_reset = ~clk_reset;
+  #20 reset = ~reset;
+  #1000 reset = ~reset;
 end
 
-LED #(
-  .DECIMATION(20'd20)) LEDT(
+Fibonacci #(
+  .DECIMATION(20'd20)) FibonacciT(
+  .clk_reset(clk_reset),
   .reset(reset),
   .clk(clk),
-  .runled(runled)
+  .out(out)
 );
 endmodule

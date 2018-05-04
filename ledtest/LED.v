@@ -47,7 +47,7 @@ always @ (posedge ledclk) begin
   end
 end
 
-clk_division # (
+clk_division #(
   .DECIMATION(DECIMATION0)) led_clk(
   .reset(reset),
   .clk(clk),
