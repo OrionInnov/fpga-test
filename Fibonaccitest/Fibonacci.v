@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Fibonacci # (
+module Fibonacci #(
   parameter DECIMATION = 20'd16) (
   clk_reset,
   reset,
