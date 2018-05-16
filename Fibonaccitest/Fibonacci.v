@@ -48,7 +48,7 @@ always @(posedge clk) begin
   end else if (enable) begin
     a <= b;
     b <= a + b;
-	end else begin
+  end else begin
     a <= a;
     b <= b;
   end
