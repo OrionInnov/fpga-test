@@ -24,25 +24,20 @@ module Fibonacci_tb;
 
 reg             clk;
 reg             reset;
-reg             clk_reset;
 
 wire    [ 7:0]  out;
 
 always #5 clk = ~clk;
 
 initial begin
-  clk_reset = 0;
   reset = 0;
   clk = 0;
-  #20 clk_reset = ~clk_reset;
-  #40 clk_reset = ~clk_reset;
   #20 reset = ~reset;
   #1000 reset = ~reset;
 end
 
 Fibonacci #(
   .DECIMATION(20'd20)) FibonacciT(
-  .clk_reset(clk_reset),
   .reset(reset),
   .clk(clk),
   .out(out)

@@ -22,19 +22,16 @@
 
 module Fibonacci #(
   parameter DECIMATION = 20'd16) (
-  clk_reset,
   reset,
   clk,
   out
 );
 
-input          clk_reset;
 input          clk;
 input          reset;
 output  [7:0]  out;
 
 wire           clken;
-wire           clk_reset;
 reg     [7:0]  a,b;
 
 assign out = b;
@@ -54,7 +51,7 @@ end
 
 clk_division #(
   .DECIMATION(DECIMATION)) fibclk(
-  .reset(clk_reset),
+  .reset(reset),
   .clk(clk),
   .clken(clken)
 );
