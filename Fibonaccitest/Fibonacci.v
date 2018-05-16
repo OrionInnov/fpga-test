@@ -33,7 +33,7 @@ input          clk;
 input          reset;
 output  [7:0]  out;
 
-wire           fib_clk;
+wire           enable;
 wire           clk_reset;
 reg     [7:0]  a,b;
 
@@ -41,21 +41,24 @@ parameter DECIMATION0 = DECIMATION / 2;
 
 assign out = b;
  
-always @(posedge fib_clk) begin
+always @(posedge clk) begin
   if(reset) begin
     a <= 8'b0;
     b <= 8'b1;
-  end else begin
+  end else if (enable) begin
     a <= b;
     b <= a + b;
-	end
+	end else begin
+    a <= a;
+    b <= b;
+  end
 end
 
 clk_division #(
   .DECIMATION(DECIMATION0)) fibclk(
   .reset(clk_reset),
   .clk(clk),
-  .out_clk(fib_clk)
+  .enable(enable)
 );
 
 endmodule
