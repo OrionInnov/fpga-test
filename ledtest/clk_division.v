@@ -24,17 +24,17 @@ module clk_division #(
   parameter [19:0] DECIMATION = 20'd16) (
   reset,
   clk,
-  enable
+  clken
 );
 
 input           clk;
 input           reset;
-output          enable;
+output          clken;
 
-reg             _enable;
+reg             _clken;
 (*keep="true"*) reg [19:0] cycle = 0;
 
-assign enable = _enable;
+assign clken = _clken;
 
 always @ (posedge clk) begin
   if (reset) begin
@@ -48,11 +48,11 @@ end
 
 always @ (posedge clk) begin
   if (reset) begin
-    _enable <= 1'b0;
+    _clken <= 1'b0;
   end else if (cycle == DECIMATION - 20'b1) begin
-    _enable <= 1'b1;
+    _clken <= 1'b1;
   end else begin
-    _enable <= 1'b0;
+    _clken <= 1'b0;
   end
 end
 

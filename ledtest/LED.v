@@ -32,17 +32,15 @@ input           clk;
 input           reset;
 output  [ 9:0]  runled;
 
-wire            enable;
+wire            clken;
 (*keep="true"*) reg [9:0] _runled = 0;
- 
-parameter [19:0] DECIMATION0 = DECIMATION / 2;
 
 assign runled = _runled;
 
 always @ (posedge clk) begin
   if (reset) begin
     _runled <= 10'b0;
-  end else if (enable) begin
+  end else if (clken) begin
     _runled <= _runled + 10'b1;
   end else begin
     _runled <= _runled;
@@ -50,10 +48,10 @@ always @ (posedge clk) begin
 end
 
 clk_division #(
-  .DECIMATION(DECIMATION0)) led_clk(
+  .DECIMATION(DECIMATION)) led_clk(
   .reset(reset),
   .clk(clk),
-  .enable(enable)
+  .clken(clken)
 );
 
 endmodule
