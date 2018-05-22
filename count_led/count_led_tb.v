@@ -27,8 +27,9 @@ initial begin
     #40 reset = ~reset;
 end
 
-LED #(
-  .DECIMATION(20'd20)) LEDT(
+count_led #(
+  .DECIMATION(20'd20)
+) count_led (
   .reset(reset),
   .clk(clk),
   .runled(runled)

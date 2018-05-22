@@ -27,8 +27,9 @@ initial begin
   #1000 reset = ~reset;
 end
 
-Fibonacci #(
-  .DECIMATION(20'd20)) FibonacciT(
+fibo_led #(
+  .DECIMATION(20'd20)
+) fibo_led (
   .reset(reset),
   .clk(clk),
   .out(out)
