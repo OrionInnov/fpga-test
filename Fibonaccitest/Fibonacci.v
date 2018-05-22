@@ -22,40 +22,38 @@
 
 module Fibonacci #(
   parameter DECIMATION = 20'd16) (
-  clk_reset,
   reset,
   clk,
   out
 );
 
-input          clk_reset;
 input          clk;
 input          reset;
 output  [7:0]  out;
 
-wire           fib_clk;
-wire           clk_reset;
+wire           clken;
 reg     [7:0]  a,b;
-
-parameter DECIMATION0 = DECIMATION / 2;
 
 assign out = b;
  
-always @(posedge fib_clk) begin
+always @(posedge clk) begin
   if(reset) begin
     a <= 8'b0;
     b <= 8'b1;
-  end else begin
+  end else if (clken) begin
     a <= b;
     b <= a + b;
-	end
+  end else begin
+    a <= a;
+    b <= b;
+  end
 end
 
 clk_division #(
-  .DECIMATION(DECIMATION0)) fibclk(
-  .reset(clk_reset),
+  .DECIMATION(DECIMATION)) fibclk(
+  .reset(reset),
   .clk(clk),
-  .out_clk(fib_clk)
+  .clken(clken)
 );
 
 endmodule
