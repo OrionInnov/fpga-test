@@ -38,9 +38,9 @@ module shift_reg #(
 
   always @(posedge clk) begin
     if (rst) begin
-      shift <= {shift[NUM_REGS-2:0], data_in};
-    end else begin
       shift <= 'd0;
+    end else begin
+      shift <= {shift[NUM_REGS-2:0], data_in};
     end
   end
 
