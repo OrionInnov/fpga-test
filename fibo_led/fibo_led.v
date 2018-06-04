@@ -1,26 +1,17 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 2018/04/20 16:56:51
-// Design Name: 
-// Module Name: 
-// Project Name: Fibonacci
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
+////////////////////////////////////////////////////////////////////////////////
+// Company: 奥新智能
+// Engineer: 江凯都
+//
+// Description:
+//
+// Revision: N/A
 // Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////
 
 
-module Fibonacci #(
+module fibo_led #(
   parameter DECIMATION = 20'd16) (
   reset,
   clk,
@@ -35,7 +26,7 @@ wire           clken;
 reg     [7:0]  a,b;
 
 assign out = b;
- 
+
 always @(posedge clk) begin
   if(reset) begin
     a <= 8'b0;
@@ -57,5 +48,3 @@ clk_division #(
 );
 
 endmodule
-
-
