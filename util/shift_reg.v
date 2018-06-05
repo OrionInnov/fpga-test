@@ -14,12 +14,12 @@ module shift_reg #(
   // parameters
 
   parameter   DATA_WIDTH = 1,
-  parameter   NUM_REGS = 10
+  parameter   NUM_REGS = 10,
 
   // bit width parameters
 
-  localparam  N0 = DATA_WIDTH - 1;
-  localparam  N1 = NUM_REGS - 1;
+  localparam  N0 = DATA_WIDTH - 1,
+  localparam  N1 = NUM_REGS - 1
 
 ) (
 
