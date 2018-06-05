@@ -13,38 +13,52 @@ module shift_reg #(
 
   // parameters
 
-  parameter WIDTH = 1,
-  parameter NUM_REGS = 10
+  parameter   DATA_WIDTH = 1,
+  parameter   NUM_REGS = 10
+
+  // bit width parameters
+
+  localparam  N0 = DATA_WIDTH - 1;
+  localparam  N1 = NUM_REGS - 1;
 
 ) (
 
   // master interface
 
-  input                 clk,
-  input                 rst,
+  input             clk,
+  input             rst,
 
   // data interface
 
-  input   [WIDTH-1:0]   data_in,
-  output  [WIDTH-1:0]   data_out
+  input   [ N0:0]   data_in,
+  output  [ N0:0]   data_out
 
 );
 
-  // internal registers
+  // register declaration
 
-  reg     [WIDTH-1:0]   shift[NUM_REGS-1:0] = 'b0;
+  reg     [ N0:0]   shift[N1:0];
 
-  // assign outputs
+  // shift register implementation
 
-  always @(posedge clk) begin
-    if (rst) begin
-      shift <= 'd0;
-    end else begin
-      shift <= {shift[NUM_REGS-2:0], data_in};
+  genvar i;
+  generate
+  for (i = 0; i < NUM_REGS; i++) begin : shift_reg
+
+    always @(posedge clk) begin
+      if (rst) begin
+        shift[i] <= {DATA_WIDTH{1'b0}};
+      end else begin
+        shift[i] <= (i == 0) ? data_in : shift[N1-1:0];
+      end
     end
-  end
 
-  assign data_out = shift[NUM_REGS-1];
+  end
+  endgenerate
+
+  // assign output
+
+  assign data_out = shift[N1];
 
 endmodule
 
