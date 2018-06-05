@@ -49,7 +49,7 @@ module shift_reg #(
       if (rst) begin
         shift[i] <= {DATA_WIDTH{1'b0}};
       end else begin
-        shift[i] <= (i == 0) ? data_in : shift[N1-1:0];
+        shift[i] <= (i == 0) ? data_in : shift[i-1];
       end
     end
 
