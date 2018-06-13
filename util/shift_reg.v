@@ -2,7 +2,7 @@
 // Company: 奥新智能
 // Engineer: Frank Liu
 //
-// Description: Shift register utility.
+// Description: Parameterizable shift register utility.
 //
 // Revision: N/A
 // Additional Comments:
@@ -43,7 +43,7 @@ module shift_reg #(
 
   genvar i;
   generate
-  for (i = 0; i < NUM_REGS; i++) begin : shift_reg
+  for (i = 0; i < NUM_REGS; i = i + 1) begin : shift_reg
 
     always @(posedge clk) begin
       if (rst) begin
